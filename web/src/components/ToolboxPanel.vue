@@ -1,34 +1,12 @@
 <template>
   <div id="toolbox-panel">
-    <h2>Toolbox panel</h2>
-    {{ point }}
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
 export default {
-  name: 'ToolboxPanel',
-  data: () => ({
-    point: null
-  }),
-  methods: {
-    ...mapActions(['loadPoints']),
-    onMapClicked: function (coords) {
-      this.point = coords
-    }
-  },
-  created () {
-    this.$eventHub.$on('map-clicked', this.onMapClicked)
-  },
-  beforeDestroy () {
-    this.$eventHub.$off('map-clicked')
-  },
-  mounted () {
-    this.loadPoints()
-  }
+  name: 'ToolboxPanel'
 }
 </script>
 
@@ -40,6 +18,8 @@ export default {
   right: 10px;
   width: 300px;
   z-index: 2;
+
+  padding: 10px;
 
   background-color: azure;
   opacity: 0.8;

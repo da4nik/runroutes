@@ -6,11 +6,18 @@
 </template>
 
 <script>
-import Map from '@/components/Map'
-import ToolboxPanel from '@/components/ToolboxPanel'
+import Map from './components/Map'
+import ToolboxPanel from './components/ToolboxPanel'
+import { mapActions } from 'vuex'
 
 export default {
-  components: { Map, ToolboxPanel }
+  components: { Map, ToolboxPanel },
+  methods: {
+    ...mapActions(['loadPoints'])
+  },
+  mounted () {
+    this.loadPoints()
+  }
 }
 </script>
 

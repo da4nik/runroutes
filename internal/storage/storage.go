@@ -7,7 +7,7 @@ type Point struct {
 	Lat            string `json:"lat"`
 	Long           string `json:"long"`
 	AsphaltPercent int    `json:"asphalt_percent"`
-	Preferred      int    `json:"pleasure"`
+	Preferred      int    `json:"preferred"`
 }
 
 type Way struct {
