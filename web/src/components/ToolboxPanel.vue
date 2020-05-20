@@ -2,6 +2,7 @@
   <div id="toolbox-panel">
     <h2>Toolbox panel</h2>
     {{ point }}
+    <router-view></router-view>
   </div>
 </template>
 
