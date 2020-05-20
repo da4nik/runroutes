@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 import store from './store'
 import YmapPlugin from 'vue-yandex-maps'
 
 const ymapSettings = {
-  apiKey: '2a794a85-e2a5-4f1c-8978-0b5dc0513dd5',
+  apiKey: '',
   lang: 'ru_RU',
   coordorder: 'latlong',
   version: '2.1',
@@ -18,7 +17,6 @@ Vue.use(YmapPlugin, ymapSettings)
 Vue.prototype.$eventHub = new Vue()
 
 new Vue({
-  router,
   store,
   render: h => h(App)
 }).$mount('#app')
