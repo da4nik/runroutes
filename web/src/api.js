@@ -1,6 +1,8 @@
 const baseURL = 'http://localhost:3333/api/v1'
 
 const request = (method, path, body) => {
+  let status = 200
+
   return fetch(baseURL + path, {
     method: method,
     body: JSON.stringify(body),
@@ -8,9 +10,12 @@ const request = (method, path, body) => {
       'Content-Type': 'application/json; charset=utf-8'
     }
   }).then(response => {
+    status = response.status
+    return response.json()
+  }).then(json => {
     return {
-      status: response.status,
-      data: response.json()
+      status: status,
+      data: json
     }
   })
 }

@@ -19,6 +19,7 @@ export default new Vuex.Store({
         .then(resp => {
           if (resp.status === 200) {
             commit('setPoints', resp.data)
+            return
           }
           commit('setPoints', [])
         })
@@ -26,10 +27,9 @@ export default new Vuex.Store({
     createPoint ({ commit, dispatch }, point) {
       API.points.create(point)
         .then(data => {
-          if (data.status === 200) {
+          if (data.status === 201) {
             dispatch('loadPoints')
           }
-          return new Promise(resolve => resolve(data))
         })
     }
   },

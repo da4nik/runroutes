@@ -41,8 +41,8 @@ export default {
     ...mapActions(['createPoint']),
     onMapClicked: function (coords) {
       this.point = {
-        lat: coords[0],
-        long: coords[1],
+        lat: '' + coords[0],
+        long: '' + coords[1],
         asphalt_percent: 100,
         preferred: 100
       }

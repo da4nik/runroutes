@@ -50,7 +50,7 @@ func (s *Server) Start() error {
 	s.router.Route("/api/v1", func(r chi.Router) {
 		r.Route("/points", func(r chi.Router) {
 			r.Get("/", s.points)
-			r.Post("/", s.notImplemented)
+			r.Post("/", s.createPoint)
 		})
 
 		r.Route("/ways", func(r chi.Router) {
