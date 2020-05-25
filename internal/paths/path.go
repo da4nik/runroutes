@@ -2,14 +2,10 @@ package paths
 
 import stor "github.com/da4nik/runroutes/internal/storage"
 
-type Paths struct {
-	points []stor.Point
-	ways   []stor.Way
-}
-
 type Path struct {
 	Distance float32
 	Points   []stor.Point
+	Finished bool
 }
 
 func (p *Path) IsCircle() bool {
@@ -30,6 +26,23 @@ func (p *Path) ToString() string {
 		res += p.ID
 	}
 	return res
+}
+
+func (p *Path) AddWay(way stor.Way) Path {
+	// appended way must start from the last point
+	if p.Points[len(p.Points)-1].ID != way.From.ID {
+		return *p
+	}
+
+	points := make([]stor.Point, len(p.Points))
+	copy(points, p.Points)
+
+	path := Path{
+		Distance: p.Distance + way.Distance,
+		Points:   append(points, way.To),
+	}
+
+	return path
 }
 
 func (p *Path) Append(pth Path) {
