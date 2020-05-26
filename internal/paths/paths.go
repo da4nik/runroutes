@@ -7,19 +7,17 @@ import (
 type AdjacencyMatrix map[string][]stor.Way
 
 type Paths struct {
-	points  []stor.Point
 	ways    []stor.Way
 	adjMart AdjacencyMatrix
 }
 
-func NewPaths(points []stor.Point, ways []stor.Way) *Paths {
+func NewPaths(ways []stor.Way) *Paths {
 	adjMatr := make(AdjacencyMatrix)
 	for _, way := range ways {
 		adjMatr[way.From.ID] = append(adjMatr[way.From.ID], way)
 	}
 
 	return &Paths{
-		points:  points,
 		ways:    ways,
 		adjMart: adjMatr,
 	}
@@ -88,7 +86,7 @@ func (p *Paths) getPaths(path *Path, startPointID string) []Path {
 	if path == nil {
 		currentPointID = startPointID
 	} else {
-		currentPointID = path.Points[len(path.Points)-1].ID
+		currentPointID = path.Ways[len(path.Ways)-1].To.ID
 	}
 
 	ways := p.adjMart[currentPointID]
@@ -107,7 +105,6 @@ func (p *Paths) getPaths(path *Path, startPointID string) []Path {
 		if path == nil {
 			newPath = Path{
 				Distance: ways[i].Distance,
-				Points:   []stor.Point{ways[i].From, ways[i].To},
 				Ways:     []stor.Way{ways[i]},
 				Finished: false,
 			}
