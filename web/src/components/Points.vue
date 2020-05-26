@@ -8,16 +8,6 @@
       <p>
         long: {{ point.long }}
       </p>
-      <p>
-        <label>Asphalt %
-          <input type="number" v-model.number="point.asphalt_percent" min="0" max="100"/>
-        </label>
-      </p>
-      <p>
-        <label>Preferred %
-          <input type="number" v-model.number="point.preferred" min="0" max="100"/>
-        </label>
-      </p>
       <button v-on:click="create">Create</button>
     </div>
 

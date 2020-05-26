@@ -4,18 +4,32 @@
     <yandex-map
       :coords="[52.638634, 41.443438]"
       ymap-class='maps-container'
-      v-on:click='mapClicked'
-      :controls="['geolocationControl', 'rulerControl', 'typeSelector']"
-    />
+      v-on:click='mapClicked'>
+<!--      :controls="['geolocationControl', 'rulerControl', 'typeSelector']">-->
+
+      <ymap-marker
+        v-for='point in points'
+        :key='point.id'
+        :marker-id='point.id'
+        marker-type='Placemark'
+        :coords='[point.lat, point.long]'
+      />
+
+    </yandex-map>
   </div>
 </template>
 
 <script>
-import { yandexMap, loadYmap } from 'vue-yandex-maps'
+import { yandexMap, loadYmap, ymapMarker } from 'vue-yandex-maps'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Map',
-  components: { yandexMap },
+  components: { yandexMap, ymapMarker },
+
+  computed: {
+    ...mapState(['points'])
+  },
 
   methods: {
     mapClicked: function (e) {
