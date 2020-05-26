@@ -6,16 +6,12 @@ import (
 	"testing"
 )
 
-func ways() []storage.Way {
-	return nil
-}
-
 func newEmptyPaths() *paths.Paths {
-	return paths.NewPaths(nil, nil)
+	return paths.NewPaths(nil)
 }
 
 func newOneRingPaths() *paths.Paths {
-	return paths.NewPaths(nil, []storage.Way{
+	return paths.NewPaths([]storage.Way{
 		{
 			From:     storage.Point{ID: "1"},
 			To:       storage.Point{ID: "2"},
@@ -40,7 +36,7 @@ func newOneRingPaths() *paths.Paths {
 }
 
 func newTwoRingsPaths() *paths.Paths {
-	return paths.NewPaths(nil, []storage.Way{
+	return paths.NewPaths([]storage.Way{
 		{
 			From:     storage.Point{ID: "1"},
 			To:       storage.Point{ID: "2"},
@@ -103,8 +99,8 @@ func TestOneRingAndDistance(t *testing.T) {
 
 	path := result[0]
 
-	if path.ToString() != "12341" {
-		t.Errorf("Wrong path, expected 12341 got %s", path.ToString())
+	if path.ID() != "12341" {
+		t.Errorf("Wrong path, expected 12341 got %s", path.ID())
 	}
 
 	if path.Distance != 4 {
@@ -129,14 +125,14 @@ func TestTwoRingAndDistance(t *testing.T) {
 	pathOne := result[0]
 	pathTwo := result[1]
 
-	if pathOne.ToString() != "12341" && pathTwo.ToString() != "12341" {
+	if pathOne.ID() != "12341" && pathTwo.ID() != "12341" {
 		t.Errorf("Wrong path, expected 12341 got %s and %s",
-			pathOne.ToString(), pathTwo.ToString())
+			pathOne.ID(), pathTwo.ID())
 	}
 
-	if pathOne.ToString() != "123561" && pathTwo.ToString() != "123561" {
+	if pathOne.ID() != "123561" && pathTwo.ID() != "123561" {
 		t.Errorf("Wrong path, expected 123561 got %s and %s",
-			pathOne.ToString(), pathTwo.ToString())
+			pathOne.ID(), pathTwo.ID())
 	}
 
 	if pathOne.Distance != 4 && pathTwo.Distance != 4 {

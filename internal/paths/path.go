@@ -19,7 +19,19 @@ func (p *Path) IsCircle() bool {
 	return p.Ways[0].From.ID == p.Ways[len(p.Ways)-1].To.ID
 }
 
-func (p *Path) ToString() string {
+func (p *Path) ID() string {
+	if len(p.Ways) == 0 {
+		return ""
+	}
+
+	res := p.Ways[0].From.ID
+	for _, w := range p.Ways {
+		res += w.To.ID
+	}
+	return res
+}
+
+func (p *Path) PrettyString() string {
 	if len(p.Ways) == 0 {
 		return ""
 	}

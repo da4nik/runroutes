@@ -6,30 +6,26 @@ import (
 	"testing"
 )
 
-func newPath() paths.Path {
-	return paths.Path{}
-}
-
 func existingPath() paths.Path {
 	return paths.Path{
 		Distance: 5,
-		Points: []stor.Point{
+		Ways: []stor.Way{
 			{
-				ID: "1",
-			},
-			{
-				ID: "2",
+				From:      stor.Point{ID: "1"},
+				To:        stor.Point{ID: "2"},
+				Distance:  0,
+				Waypoints: nil,
 			},
 		},
 	}
 }
 
-func TestPathToString(t *testing.T) {
+func TestPathID(t *testing.T) {
 	t.Parallel()
 
 	path := existingPath()
 
-	pathString := path.ToString()
+	pathString := path.ID()
 	if pathString == "12" {
 		return
 	}
