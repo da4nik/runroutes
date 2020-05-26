@@ -36,22 +36,3 @@ func TestPathToString(t *testing.T) {
 
 	t.Errorf("Incorrect string, expected 12, got %s", pathString)
 }
-
-func TestPathAppend(t *testing.T) {
-	t.Parallel()
-
-	path := existingPath()
-
-	path.Append(path)
-
-	pathString := path.ToString()
-	if pathString != "1212" {
-		t.Errorf("Incorrect string, expected 1212, got %s", pathString)
-		return
-	}
-
-	if path.Distance != 10 {
-		t.Errorf("Incorrect distance, expected 10, got %f", path.Distance)
-		return
-	}
-}

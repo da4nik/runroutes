@@ -37,60 +37,84 @@ func (p *Paths) Calculate(startPointID string) []Path {
 		return resultPaths
 	}
 
-	resultPaths = append(resultPaths, Path{
-		Distance: 0,
-		Points:   []stor.Point{ways[0].From},
-		Finished: false,
-	})
+	resultPaths = p.searchPaths(nil, startPointID)
 
-	isFirst := true
 	for {
-		finishedCount := 0
-		newPaths := make([]Path, 0)
-
-		for i := range resultPaths {
-			if resultPaths[i].Finished {
-				finishedCount += 1
-				newPaths = append(newPaths, resultPaths[i])
-				continue
+		finished := 0
+		for _, path := range resultPaths {
+			if path.Finished {
+				finished += 1
 			}
-
-			paths := p.getPaths(resultPaths[i], startPointID, isFirst)
-			isFirst = false
-			if paths == nil {
-				resultPaths[i].Finished = true
-				newPaths = append(newPaths, resultPaths[i])
-				continue
-			}
-
-			newPaths = append(newPaths, paths...)
 		}
-		resultPaths = newPaths
-
-		if finishedCount == len(resultPaths) {
+		if finished == len(resultPaths) {
 			break
 		}
+
+		resultPaths = p.searchPaths(resultPaths, startPointID)
 	}
 
 	return resultPaths
 }
 
-func (p *Paths) getPaths(path Path, startPointID string, isFirst bool) []Path {
-	currentPoint := path.Points[len(path.Points)-1]
+func (p *Paths) searchPaths(paths []Path, startPointID string) []Path {
+	if paths == nil {
+		return p.getPaths(nil, startPointID)
+	}
 
-	ways := p.adjMart[currentPoint.ID]
+	var resultPaths []Path
+	for i := range paths {
+		workingPath := paths[i]
+
+		if workingPath.Finished {
+			resultPaths = append(resultPaths, workingPath)
+			continue
+		}
+
+		paths := p.getPaths(&workingPath, startPointID)
+		if paths == nil {
+			workingPath.Finished = true
+			resultPaths = append(resultPaths, workingPath)
+			continue
+		}
+
+		resultPaths = append(resultPaths, paths...)
+	}
+
+	return resultPaths
+}
+
+func (p *Paths) getPaths(path *Path, startPointID string) []Path {
+	var currentPointID string
+	if path == nil {
+		currentPointID = startPointID
+	} else {
+		currentPointID = path.Points[len(path.Points)-1].ID
+	}
+
+	ways := p.adjMart[currentPointID]
 
 	if len(ways) == 0 {
 		return nil
 	}
 
-	if currentPoint.ID == startPointID && !isFirst {
+	if currentPointID == startPointID && path != nil {
 		return nil
 	}
 
 	paths := make([]Path, 0)
 	for i := range ways {
-		newPath := path.AddWay(ways[i])
+		var newPath Path
+		if path == nil {
+			newPath = Path{
+				Distance: ways[i].Distance,
+				Points:   []stor.Point{ways[i].From, ways[i].To},
+				Ways:     []stor.Way{ways[i]},
+				Finished: false,
+			}
+		} else {
+			newPath = path.AddWay(ways[i])
+		}
+
 		paths = append(paths, newPath)
 	}
 
