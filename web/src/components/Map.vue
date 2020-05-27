@@ -13,6 +13,7 @@
         :marker-id='point.id'
         marker-type='Placemark'
         :coords='[point.lat, point.long]'
+        v-on:click='markerClicked(point)'
       />
 
     </yandex-map>
@@ -34,6 +35,9 @@ export default {
   methods: {
     mapClicked: function (e) {
       this.$eventHub.$emit('map-clicked', e.get('coords'))
+    },
+    markerClicked: function (point) {
+      this.$eventHub.$emit('marker-clicked', point)
     }
   },
 
