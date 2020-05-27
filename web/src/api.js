@@ -30,6 +30,16 @@ const points = {
   }
 }
 
+const ways = {
+  list () {
+    return request('GET', '/ways')
+  },
+
+  create (way) {
+    return request('POST', '/ways', way)
+  }
+}
+
 export default {
-  points
+  points, ways
 }

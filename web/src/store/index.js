@@ -6,11 +6,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    points: []
+    points: [],
+    ways: []
   },
   mutations: {
     setPoints: (state, points) => {
       state.points = points
+    },
+    setWays: (state, ways) => {
+      state.ways = ways
     }
   },
   actions: {
@@ -24,11 +28,29 @@ export default new Vuex.Store({
           commit('setPoints', [])
         })
     },
-    createPoint ({ commit, dispatch }, point) {
+    createPoint ({ dispatch }, point) {
       API.points.create(point)
         .then(data => {
           if (data.status === 201) {
             dispatch('loadPoints')
+          }
+        })
+    },
+    loadWays ({ commit }) {
+      API.ways.list()
+        .then(resp => {
+          if (resp.status === 200) {
+            commit('setWays', resp.data)
+            return
+          }
+          commit('setPoints', [])
+        })
+    },
+    createWay ({ dispatch }, way) {
+      API.ways.create(way)
+        .then(data => {
+          if (data.status === 201) {
+            dispatch('loadWays')
           }
         })
     }
