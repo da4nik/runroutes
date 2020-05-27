@@ -54,9 +54,11 @@ func (s *Server) Start() error {
 		})
 
 		r.Route("/ways", func(r chi.Router) {
-			r.Get("/", s.notImplemented)
-			r.Post("/", s.notImplemented)
+			r.Get("/", s.ways)
+			r.Post("/", s.createWay)
 		})
+
+		r.Post("/calculate", s.calculate)
 	})
 
 	port := s.port

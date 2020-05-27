@@ -23,7 +23,8 @@ func NewPaths(ways []stor.Way) *Paths {
 	}
 }
 
-func (p *Paths) Calculate(startPointID string) []Path {
+// not used distance param
+func (p *Paths) Calculate(startPointID string, _ float64) []Path {
 	var resultPaths []Path
 
 	ways, exists := p.adjMart[startPointID]

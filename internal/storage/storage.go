@@ -64,7 +64,7 @@ func (s *Storage) Points() []Point {
 }
 
 func (s *Storage) CreatePoint(point Point) error {
-	point.ID = generateID(&point)
+	point.ID = generatePointID(&point)
 	s.points = append(s.points, point)
 
 	s.saveDB()
@@ -74,6 +74,15 @@ func (s *Storage) CreatePoint(point Point) error {
 
 func (s *Storage) Ways() []Way {
 	return s.ways
+}
+
+func (s *Storage) CreateWay(way Way) error {
+	way.ID = generateWayID(&way)
+	s.ways = append(s.ways, way)
+
+	s.saveDB()
+
+	return nil
 }
 
 func (s *Storage) saveDB() {
@@ -93,8 +102,14 @@ func (s *Storage) saveDB() {
 	}
 }
 
-func generateID(point *Point) string {
+func generatePointID(point *Point) string {
 	hasher := sha256.New()
 	hasher.Write([]byte(fmt.Sprintf("%s%s", point.Lat, point.Long)))
+	return base64.URLEncoding.EncodeToString(hasher.Sum(nil))
+}
+
+func generateWayID(way *Way) string {
+	hasher := sha256.New()
+	hasher.Write([]byte(fmt.Sprintf("%s%s", way.From.ID, way.To.ID)))
 	return base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 }

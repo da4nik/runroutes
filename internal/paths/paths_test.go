@@ -80,7 +80,7 @@ func TestEmptyWays(t *testing.T) {
 
 	p := newEmptyPaths()
 
-	if p.Calculate("1") != nil {
+	if p.Calculate("1", 1) != nil {
 		t.Error("Paths should be empty")
 		return
 	}
@@ -91,7 +91,7 @@ func TestOneRingAndDistance(t *testing.T) {
 
 	p := newOneRingPaths()
 
-	result := p.Calculate("1")
+	result := p.Calculate("1", 1)
 	if len(result) != 1 {
 		t.Errorf("Should be exactly one path, got %d", len(result))
 		return
@@ -116,7 +116,7 @@ func TestTwoRingAndDistance(t *testing.T) {
 
 	p := newTwoRingsPaths()
 
-	result := p.Calculate("1")
+	result := p.Calculate("1", 1)
 	if len(result) != 2 {
 		t.Errorf("Should be exactly two paths, got %d", len(result))
 		return
